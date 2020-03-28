@@ -16,6 +16,9 @@ def fibo(n):
 
 def foo(number):
 
+    if number > 60000:
+        return 'Больше 60000 нельзя'
+
     cache_dict = client.get('cache_fi')
     if cache_dict:
         decod = cache_dict.decode("utf-8")
