@@ -32,4 +32,4 @@ def foo(number):
             client.hmset('rcache', rcache)
         else:
             client.hmset('rcache', {str(number): fibo_list[-1]})
-        return f'посчитали: {fibo_list[-1]}'
+        return f'посчитали: {fibo_list[-1]}<br>{str(rcache)}'
