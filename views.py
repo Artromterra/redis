@@ -18,7 +18,9 @@ def foo(number):
 
     cache_dict = client.get('cache_f')
     if cache_dict:
-        jdict = json.loads(cache_dict.decode("utf-8"))
+        return cache_dict
+        decod = cache_dict.decode("utf-8")
+        jdict = json.loads(decod)
         if str(number) in jdict:
             return f'из кэша: {jdict[str(number)]}'
 
