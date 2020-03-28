@@ -18,11 +18,10 @@ def foo(number):
 
     cache_dict = client.get('cache_fi')
     if cache_dict:
-        # return cache_dict
         decod = cache_dict.decode("utf-8")
         jdict = json.loads(decod)
         if str(number) in jdict:
-            return f'из кэша: {jdict[str(number)]}'
+            return f'из кэша: {jdict[str(number)]}<br><br>кэш: {str(jdict)}'
 
     if number > 500:
         step = 500
