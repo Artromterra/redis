@@ -1,4 +1,4 @@
-from views import foo, boo
+from views import foo
 from flask import Flask
 
 app = Flask(__name__)
@@ -7,7 +7,3 @@ app = Flask(__name__)
 @app.route('/<int:number>', methods = ['GET'])
 def show_post(number=1):
     return foo(number)
-
-@app.route('/rm', methods = ['GET'])
-def rm():
-    return boo()
