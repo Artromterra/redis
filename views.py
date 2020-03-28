@@ -1,12 +1,22 @@
 import json
 import redis
+import pickle
 
+def get_dict_data_from_redis(redis_client, key):
+    data = redis_client.get(key)
+    if data:
+       try:
+          return pickle.loads(data)
+       except:
+          return None
+    return {}
+    
 client = redis.Redis(host='redis', port=6379)
 
-cache = client.hgetall('cache')
+cache = get_dict_data_from_redis(client, 'cache')
 if not cache:
     cache = {'0': 0, '1': 1}
-    client.hmset('cache', cache)
+    client.set('cache', pickle.dumps(cache))
 
 def fibo(n):
     if str(n) in cache:
@@ -14,7 +24,7 @@ def fibo(n):
     else:
         f = fibo(n-1) + fibo(n-2)
         cache[str(n)] = f
-        client.hmset('cache', cache)
+        client.set('cache', pickle.dumps(cache))
         return f
 
 def foo(number):
