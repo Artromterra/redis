@@ -16,9 +16,9 @@ def fibo(n):
 
 def foo(number):
 
-    cache_dict = client.get('cache_f')
+    cache_dict = client.get('cache_fi')
     if cache_dict:
-        return cache_dict
+        # return cache_dict
         decod = cache_dict.decode("utf-8")
         jdict = json.loads(decod)
         if str(number) in jdict:
@@ -36,7 +36,7 @@ def foo(number):
     if cache_dict:
         jdict = json.loads(cache_dict.decode("utf-8"))
         jdict[str(number)] = str(fibo_list[-1])
-        client.set('cache_f', str(jdict))
+        client.set('cache_fi', str(json.dumps(jdict)))
     else:
-        client.set('cache_f', str(json.dumps({str(number): str(fibo_list[-1])})))
+        client.set('cache_fi', str(json.dumps({str(number): str(fibo_list[-1])})))
     return f'посчитали: {fibo_list[-1]}<br><br>кэш: {str(cache_dict)}'
