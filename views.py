@@ -17,7 +17,7 @@ def fibo(n):
 def foo(number):
 
     cache_dict = client.get('cache_f')
-    if cache_dict and str(number) in pickle.loads(cache_dict):
+    if cache_dict:
         jdict = json.loads(cache_dict.decode("utf-8"))
         if str(number) in jdict:
             return f'из кэша: {jdict[str(number)]}'
