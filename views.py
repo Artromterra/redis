@@ -3,13 +3,10 @@ import redis
 
 client = redis.Redis(host='redis', port=6379)
 
-# cache = client.hgetall('cache')
-try:
-    cache = json.loads(client.execute_command('JSON.GET', 'cache'))
-except:
+cache = client.hgetall('fibocache')
+if not cache:
     cache = {'0': 0, '1': 1}
-    # client.hmset('cache', cache)
-    client.execute_command('JSON.SET', 'cache', '.', json.dumps(cache))
+    client.hmset('fibocache', cache)
 
 def fibo(n):
     if str(n) in cache:
@@ -17,8 +14,7 @@ def fibo(n):
     else:
         f = fibo(n-1) + fibo(n-2)
         cache[str(n)] = f
-        # client.hmset('cache', cache)
-        client.execute_command('JSON.SET', 'cache', '.', json.dumps(cache))
+        client.hmset('fibocache', cache)
         return f
 
 def foo(number):
