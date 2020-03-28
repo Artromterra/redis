@@ -4,8 +4,9 @@ import redis
 client = redis.Redis(host='redis', port=6379)
 
 # cache = client.hgetall('cache')
-cache = json.loads(client.execute_command('JSON.GET', 'cache'))
-if not cache:
+try:
+    cache = json.loads(client.execute_command('JSON.GET', 'cache'))
+except:
     cache = {'0': 0, '1': 1}
     # client.hmset('cache', cache)
     client.execute_command('JSON.SET', 'cache', '.', json.dumps(cache))
