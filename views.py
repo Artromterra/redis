@@ -14,9 +14,9 @@ def fibo(n):
 
 def foo(number):
 
-    rcache = client.hgetall('rcache')
-    if rcache and str(number) in rcache:
-        return f'из кэша: {rcache[str(number)]}'
+    cache_dict = client.hgetall('cache_dict')
+    if cache_dict and str(number) in cache_dict:
+        return f'из кэша: {cache_dict[str(number)]}'
     else:
         if number > 500:
             step = 500
@@ -27,9 +27,9 @@ def foo(number):
         cache_list = [x*k+(step*(x-1)) for x in range(1, round(number/step)+1)]
         cache_list.append(number)
         fibo_list = [fibo(n) for n in cache_list]
-        if rcache:
-            rcache[str(number)] = fibo_list[-1]
-            client.hmset('rcache', rcache)
+        if cache_dict:
+            cache_dict[str(number)] = str(fibo_list[-1])
+            client.hmset('cache_dict', cache_dict)
         else:
-            client.hmset('rcache', {str(number): fibo_list[-1]})
-        return f'посчитали: {fibo_list[-1]}<br>{str(rcache)}'
+            client.hmset('cache_dict', {str(number): str(fibo_list[-1])})
+        return f'посчитали: {fibo_list[-1]}<br><br>кэш: {str(cache_dict)}'
