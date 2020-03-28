@@ -1,21 +1,5 @@
 import json
-from pymemcache.client.base import Client
 import redis
-
-def json_serializer(key, value):
-    if type(value) == str:
-        return value, 1
-    return json.dumps(value), 2
-
-def json_deserializer(key, value, flags):
-   if flags == 1:
-       return value.decode("utf-8")
-   if flags == 2:
-       return json.loads(value.decode("utf-8"))
-   raise Exception("Unknown serialization format")
-
-# client = Client(('localhost', 11211), serializer=json_serializer,
-#                 deserializer=json_deserializer)
 
 client = redis.Redis(host='redis', port=6379)
 
@@ -35,7 +19,7 @@ def fibo(n):
 
 def foo(number):
 
-    pref = 'очистить кэш: /rm<br>если ошибка - значит кэш переполнен<br><br>'
+    pref = 'если ошибка - значит кэш переполнен<br><br>'
     if str(number) in cache:
         return f'{pref}из кэша: {cache[str(number)]}'
     else:
@@ -49,8 +33,3 @@ def foo(number):
         cache_list.append(number)
         fibo_list = [fibo(n) for n in cache_list]
         return f'{pref}посчитали: {fibo_list[-1]}'
-
-def boo():
-    cache = {'0': 0, '1': 1}
-    client.hmset('cache', cache)
-    return 'теперь в кэше только значения для 0 и 1'
