@@ -16,7 +16,7 @@ def fibo(n):
 
 def foo(number):
 
-    cache_dict = client.get('cache_d')
+    cache_dict = client.get('cache_f')
     if cache_dict and str(number) in pickle.loads(cache_dict):
         jdict = json.loads(cache_dict.decode("utf-8"))
         if str(number) in jdict:
@@ -34,7 +34,7 @@ def foo(number):
     if cache_dict:
         jdict = json.loads(cache_dict.decode("utf-8"))
         jdict[str(number)] = str(fibo_list[-1])
-        client.set('cache_d', jdict)
+        client.set('cache_f', jdict)
     else:
         client.set('cache_f', str(json.dumps({str(number): str(fibo_list[-1])})))
     return f'посчитали: {fibo_list[-1]}<br><br>кэш: {str(cache_dict)}'
