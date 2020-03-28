@@ -19,10 +19,10 @@ def json_deserializer(key, value, flags):
 
 client = redis.Redis(host='redis', port=6379)
 
-cache = client.get('cache')
+cache = client.hgetall('cache')
 if not cache:
     cache = {'0': 0, '1': 1}
-    client.set('cache', cache)
+    client.hmset('cache', cache)
 
 def fibo(n):
     if str(n) in cache:
@@ -30,7 +30,7 @@ def fibo(n):
     else:
         f = fibo(n-1) + fibo(n-2)
         cache[str(n)] = f
-        client.set('cache', cache)
+        client.hmset('cache', cache)
         return f
 
 def foo(number):
@@ -51,5 +51,5 @@ def foo(number):
         return f'{pref}посчитали: {fibo_list[-1]}'
 
 def boo():
-    client.set('cache', {'0': 0, '1': 1})
+    client.hmset('cache', {'0': 0, '1': 1})
     return 'теперь в кэше только значения для 0 и 1'
