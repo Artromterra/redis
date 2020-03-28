@@ -33,3 +33,8 @@ def foo(number):
         cache_list.append(number)
         fibo_list = [fibo(n) for n in cache_list]
         return f'{pref}посчитали: {fibo_list[-1]}'
+
+def boo():
+
+    cache = {'0': 0, '1': 1}
+    client.hmset('fibocache', cache)
