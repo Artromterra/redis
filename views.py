@@ -51,5 +51,6 @@ def foo(number):
         return f'{pref}посчитали: {fibo_list[-1]}'
 
 def boo():
-    client.hmset('cache', {'0': 0, '1': 1})
+    cache = {'0': 0, '1': 1}
+    client.hmset('cache', cache)
     return 'теперь в кэше только значения для 0 и 1'
